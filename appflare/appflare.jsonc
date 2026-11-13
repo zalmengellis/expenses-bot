@@ -1,0 +1,58 @@
+{
+  // Draft entry for the Appflare catalog (https://github.com/appflare/catalog).
+  // It goes in that repo as apps/expenses-bot/appflare.jsonc. Before submitting, pin
+  // `source` to a pushed commit and add a "license" (SPDX id).
+  "$schema": "https://appflare.github.io/catalog/schema/v1.json",
+  "slug": "expenses-bot",
+  "name": "Expenses Bot",
+  "summary": "A WhatsApp bot for tracking expenses: send an amount and a reason, get a ✅, and ask for a monthly summary. Family members can share one account.",
+  "tagline": "Track household expenses by sending WhatsApp messages",
+  "features": [
+    "Record an expense by sending a message like 50 groceries",
+    "Get a summary of all expenses by month, with totals",
+    "Share one account with family members through invite codes",
+    "Limit the bot to the phone numbers you choose",
+    "Set everything up from a guided page that checks each step with Meta"
+  ],
+  "repo": "yosefor/expanses-bot",
+  "license": "MIT",
+  "categories": ["bots", "productivity"],
+  "maintainers": ["yosefor"],
+  "source": { "ref": "main", "sha": "0000000000000000000000000000000000000000" },
+  "install": {
+    "packageManager": "npm",
+    "wranglerConfig": "wrangler.jsonc",
+    // "/" is the setup page. It answers 401 until you sign in with the admin password.
+    "health": { "path": "/" }
+  },
+  // One Worker, one D1 database and a daily cron. All within the free plan.
+  "plan": "free",
+  // The WhatsApp details are entered on the setup page (stored in D1), which checks each one with Meta.
+  "secrets": [
+    {
+      "name": "ADMIN_PASSWORD",
+      "label": "Setup page password",
+      "help": "Signs you in to the setup page (any user name). Copy it now.",
+      "generate": "password"
+    }
+  ],
+  "vars": [
+    {
+      "name": "TIMEZONE",
+      "label": "Time zone",
+      "help": "Used to group expenses by month, for example Asia/Jerusalem or Europe/London.",
+      "default": "Asia/Jerusalem"
+    }
+  ],
+  "openPath": "/",
+  "postInstall": [
+    {
+      "type": "markdown",
+      "content": "Open {{appUrl}} and sign in with any user name and the setup page password. The page (in Hebrew) walks you through creating a Meta app, checks each detail you paste with Meta, registers the number and connects the bot in one click each, and turns green when the first message arrives."
+    },
+    {
+      "type": "markdown",
+      "content": "Send the bot `עזרה` (help) from WhatsApp to see the commands. The bot replies in Hebrew."
+    }
+  ]
+}

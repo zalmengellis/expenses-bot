@@ -1,0 +1,3 @@
+# A password for your bot's setup page (open the Worker's address, any user name).
+# Everything else (WhatsApp details, allowed numbers) is entered on that page.
+ADMIN_PASSWORD=
